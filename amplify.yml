@@ -14,29 +14,13 @@ frontend:
         - env | grep -e APP_ID -e INSTALLATION_ID -e ASSUME_ROLE_ARN -e KEYCLOAK_CLIENT_ID -e NEXTAUTH_URL >> .env.production
         # Write NEXT_PUBLIC_ variables to .env.production
         - env | grep -e NEXT_PUBLIC_ >> .env.production
-        # Write secrets to .env.production.
-        # These values come from either the Amplify Secrets tab (preferred) or
-        # Environment Variables — Amplify injects both as env vars at build time.
-        # Log presence of each secret (value is not printed).
-        - |
-          check_secret() {
-            local var_name="$1"
-            local val
-            eval val="\$$var_name"
-            if [ -n "$val" ]; then
-              echo "[secrets] $var_name is SET (length: $(printf '%s' "$val" | wc -c) chars)"
-            else
-              echo "[secrets] $var_name is MISSING"
-            fi
-          }
-          for s in GITHUB_PRIVATE_KEY KEYCLOAK_CLIENT_SECRET NEXTAUTH_SECRET INGEST_UI_EXTERNAL_ID NEXT_PUBLIC_KEYCLOAK_ISSUER; do
-            check_secret "$s"
-          done
-        - echo "GITHUB_PRIVATE_KEY=\"$GITHUB_PRIVATE_KEY\"" >> .env.production
-        - echo "KEYCLOAK_CLIENT_SECRET=\"$KEYCLOAK_CLIENT_SECRET\"" >> .env.production
-        - echo "NEXTAUTH_SECRET=\"$NEXTAUTH_SECRET\"" >> .env.production
-        - echo "INGEST_UI_EXTERNAL_ID=\"$INGEST_UI_EXTERNAL_ID\"" >> .env.production
-        - echo "NEXT_PUBLIC_KEYCLOAK_ISSUER=\"$NEXT_PUBLIC_KEYCLOAK_ISSUER\"" >> .env.production
+        # Runtime-only secrets (GITHUB_PRIVATE_KEY, KEYCLOAK_CLIENT_SECRET,
+        # NEXTAUTH_SECRET, INGEST_UI_EXTERNAL_ID) are provided by the Amplify
+        # Secrets tab and injected at SSR runtime — they are NOT needed during
+        # the build and should NOT be written to .env.production.
+        #
+        # NEXT_PUBLIC_KEYCLOAK_ISSUER is already captured by the NEXT_PUBLIC_
+        # grep above.
         - yarn build
   artifacts:
     baseDirectory: .next

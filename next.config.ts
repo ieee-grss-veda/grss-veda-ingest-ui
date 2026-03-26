@@ -1,17 +1,31 @@
 import type { NextConfig } from 'next';
 
 // Environment variable validation
-const requiredEnvVars = [
+// Build-time vars: must be available when `next build` runs
+const requiredBuildEnvVars = [
   'NEXT_PUBLIC_KEYCLOAK_ISSUER',
   'KEYCLOAK_CLIENT_ID',
-  'KEYCLOAK_CLIENT_SECRET',
-  'NEXTAUTH_SECRET',
-  'GITHUB_PRIVATE_KEY',
   'APP_ID',
   'INSTALLATION_ID',
 ];
 
-const missingEnvVars = requiredEnvVars.filter((envVar) => !process.env[envVar]);
+// Runtime-only vars: only needed when the SSR server starts (provided by
+// Amplify Secrets tab at runtime, not during build)
+const requiredRuntimeEnvVars = [
+  'KEYCLOAK_CLIENT_SECRET',
+  'NEXTAUTH_SECRET',
+  'GITHUB_PRIVATE_KEY',
+  'INGEST_UI_EXTERNAL_ID',
+];
+
+const isBuild =
+  process.env.NODE_ENV === 'production' && !process.env.NEXT_RUNTIME;
+
+const envVarsToCheck = isBuild
+  ? requiredBuildEnvVars
+  : [...requiredBuildEnvVars, ...requiredRuntimeEnvVars];
+
+const missingEnvVars = envVarsToCheck.filter((envVar) => !process.env[envVar]);
 
 if (missingEnvVars.length > 0 && process.env.NODE_ENV !== 'test') {
   console.warn(
