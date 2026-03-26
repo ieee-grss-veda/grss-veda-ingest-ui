@@ -221,66 +221,64 @@ const CollectionsClient = function CollectionsClient() {
           )}
         </Col>
       </Row>
-      {isEditExistingCollectionEnabled && (
-        <>
-          <Title level={3} style={{ marginTop: 40 }}>
-            Existing STAC Collections
-          </Title>
-          <Row gutter={16} style={{ marginTop: 16 }}>
-            <Col span={24}>
-              {hasEditStacCollectionPermission ? (
-                <Link href="/edit-existing-collection">
-                  <Card
-                    title={
-                      <>
-                        <DatabaseOutlined style={{ marginRight: 8 }} />
-                        Edit Existing Collection
-                      </>
-                    }
-                    variant="outlined"
-                    hoverable={true}
-                  >
-                    Edit collections that have already been ingested
-                  </Card>
-                </Link>
-              ) : (
-                <Tooltip
-                  title="Contact the Data Services Team if you need access to editing Existing Collections"
-                  placement="topLeft"
-                  color={token.colorBgElevated}
-                  styles={{
-                    body: {
-                      color: token.colorText,
-                      backgroundColor: token.colorBgElevated,
-                      border: `1px solid ${token.colorBorder}`,
-                    },
+      <>
+        <Title level={3} style={{ marginTop: 40 }}>
+          Existing STAC Collections
+        </Title>
+        <Row gutter={16} style={{ marginTop: 16 }}>
+          <Col span={24}>
+            {hasEditStacCollectionPermission ? (
+              <Link href="/edit-existing-collection">
+                <Card
+                  title={
+                    <>
+                      <DatabaseOutlined style={{ marginRight: 8 }} />
+                      Edit Existing Collection
+                    </>
+                  }
+                  variant="outlined"
+                  hoverable={true}
+                >
+                  Edit collections that have already been ingested
+                </Card>
+              </Link>
+            ) : (
+              <Tooltip
+                title="Contact the Data Services Team if you need access to editing Existing Collections"
+                placement="topLeft"
+                color={token.colorBgElevated}
+                styles={{
+                  body: {
+                    color: token.colorText,
+                    backgroundColor: token.colorBgElevated,
+                    border: `1px solid ${token.colorBorder}`,
+                  },
+                }}
+              >
+                <Card
+                  title={
+                    <>
+                      <DatabaseOutlined style={{ marginRight: 8 }} />
+                      Edit Existing Collection
+                    </>
+                  }
+                  variant="outlined"
+                  style={{
+                    opacity: 0.6,
+                    cursor: 'not-allowed',
+                    pointerEvents: 'auto',
+                    backgroundColor: token.colorBgContainerDisabled,
+                    borderColor: token.colorBorder,
+                    color: token.colorTextDisabled,
                   }}
                 >
-                  <Card
-                    title={
-                      <>
-                        <DatabaseOutlined style={{ marginRight: 8 }} />
-                        Edit Existing Collection
-                      </>
-                    }
-                    variant="outlined"
-                    style={{
-                      opacity: 0.6,
-                      cursor: 'not-allowed',
-                      pointerEvents: 'auto',
-                      backgroundColor: token.colorBgContainerDisabled,
-                      borderColor: token.colorBorder,
-                      color: token.colorTextDisabled,
-                    }}
-                  >
-                    Edit collections that have already been ingested
-                  </Card>
-                </Tooltip>
-              )}
-            </Col>
-          </Row>
-        </>
-      )}
+                  Edit collections that have already been ingested
+                </Card>
+              </Tooltip>
+            )}
+          </Col>
+        </Row>
+      </>
     </AppLayout>
   );
 };
