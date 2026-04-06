@@ -17,7 +17,6 @@ const AssetsField: React.FC<FieldProps> = (props) => {
     required,
     description,
   } = props;
-  const formContext = registry.formContext;
 
   const { SchemaField } = registry.fields;
   const { TitleFieldTemplate, DescriptionFieldTemplate } = registry.templates;
@@ -32,7 +31,7 @@ const AssetsField: React.FC<FieldProps> = (props) => {
   }, [formData]);
 
   const generateUniqueKey = useCallback(() => {
-    let newKeyBase = 'new_asset';
+    const newKeyBase = 'new_asset';
     let counter = 1;
     let newKey = newKeyBase;
     while (formData && formData.hasOwnProperty(newKey)) {
@@ -87,11 +86,14 @@ const AssetsField: React.FC<FieldProps> = (props) => {
       }
       if (oldKey === newKey) return;
 
-      const newFormData = Object.keys(formData).reduce((acc, currentKey) => {
-        const targetKey = currentKey === oldKey ? newKey : currentKey;
-        acc[targetKey] = formData[currentKey];
-        return acc;
-      }, {} as any);
+      const newFormData = Object.keys(formData).reduce(
+        (acc, currentKey) => {
+          const targetKey = currentKey === oldKey ? newKey : currentKey;
+          acc[targetKey] = formData[currentKey];
+          return acc;
+        },
+        {} as Record<string, unknown>
+      );
 
       onChange(newFormData, fieldPathId.path);
     },

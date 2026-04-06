@@ -48,14 +48,17 @@ interface ThumbnailUploaderProps {
   onUploadSuccess?: (s3Uri: string) => void;
 }
 
+type UploadHandlerOptions = {
+  file: unknown;
+  onProgress?: (progress: { percent: number }) => void;
+};
+
 function ThumbnailUploader({
   insideDrawer = false,
   onUploadSuccess,
 }: ThumbnailUploaderProps) {
   const { message, modal } = App.useApp();
-  const [uploadingFile, setUploadingFile] = useState<UploadingFile | null>(
-    null
-  );
+  const [, setUploadingFile] = useState<UploadingFile | null>(null);
   const [uploadedFile, setUploadedFile] = useState<UploadedFile | null>(null);
   const [imageValidation, setImageValidation] =
     useState<ImageValidationResult | null>(null);
@@ -104,11 +107,13 @@ function ThumbnailUploader({
     });
   };
 
-  const handleUpload = async ({ file, onProgress }: any) => {
+  const handleUpload = async ({ file, onProgress }: UploadHandlerOptions) => {
     if (!(file instanceof File)) {
       message.error('No valid file selected. Please try again.');
       return;
     }
+
+    const progressHandler = onProgress || (() => {});
 
     if (!ALLOWED_FILE_TYPES.includes(file.type)) {
       message.error('Invalid file format. Please upload a JPG or PNG image.');
@@ -150,7 +155,7 @@ function ThumbnailUploader({
           okText: 'Overwrite',
           cancelText: 'Cancel',
           onOk() {
-            proceedWithUpload(file, uploadUrl, fileUrl, onProgress);
+            proceedWithUpload(file, uploadUrl, fileUrl, progressHandler);
           },
           onCancel: () => {
             setImageValidation(null);
@@ -160,7 +165,7 @@ function ThumbnailUploader({
         return;
       }
 
-      await proceedWithUpload(file, uploadUrl, fileUrl, onProgress);
+      await proceedWithUpload(file, uploadUrl, fileUrl, progressHandler);
     } catch (error) {
       loadingMessage();
       console.error('Upload failed:', error);
