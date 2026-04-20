@@ -54,7 +54,9 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     const collectionData = await stacResponse.json();
     const collectionTenantValue = collectionData?.[tenantFieldKey];
     const collectionTenant =
-      typeof collectionTenantValue === 'string' ? collectionTenantValue : undefined;
+      typeof collectionTenantValue === 'string'
+        ? collectionTenantValue
+        : undefined;
 
     // Validate tenant access if collection has a tenant
     if (

@@ -12,12 +12,12 @@ const AppWrapper = ({ children }: { children: React.ReactNode }) => (
 );
 
 describe('ExtensionManager', () => {
-  let mockOnAddExtension: ReturnType<typeof vi.fn>;
-  let mockOnRemoveExtension: ReturnType<typeof vi.fn>;
+  const mockOnAddExtension = vi.fn<(url: string) => void>();
+  const mockOnRemoveExtension = vi.fn<(url: string) => void>();
 
   beforeEach(() => {
-    mockOnAddExtension = vi.fn();
-    mockOnRemoveExtension = vi.fn();
+    mockOnAddExtension.mockReset();
+    mockOnRemoveExtension.mockReset();
   });
 
   afterEach(() => {
@@ -148,13 +148,10 @@ describe('ExtensionManager', () => {
       </AppWrapper>
     );
 
-    const searchContainer = screen
-      .getByPlaceholderText('Enter extension schema URL')
-      .closest('.ant-input-search');
-    const loadingIcon = within(searchContainer as HTMLElement).getByRole(
-      'img',
-      { name: 'loading' }
-    );
+    const addButton = screen.getByRole('button', {
+      name: /Add Extension/i,
+    });
+    const loadingIcon = within(addButton).getByRole('img', { name: 'loading' });
 
     expect(loadingIcon).toBeVisible();
   });

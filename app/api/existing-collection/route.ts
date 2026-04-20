@@ -37,7 +37,9 @@ export async function GET(request: NextRequest) {
     const userTenants = await getUserTenants(session);
 
     const tenantFieldKey = getTenantFieldKey();
-    const getCollectionTenant = (collection: StacCollection): string | undefined => {
+    const getCollectionTenant = (
+      collection: StacCollection
+    ): string | undefined => {
       const tenant = collection[tenantFieldKey];
       return typeof tenant === 'string' ? tenant : undefined;
     };
@@ -93,11 +95,7 @@ export async function GET(request: NextRequest) {
       stacData.collections = stacData.collections.filter((collection) => {
         const tenant = getCollectionTenant(collection);
         const collectionTenant = tenant?.toLowerCase();
-        return (
-          !tenant ||
-          tenant === '' ||
-          collectionTenant === 'public'
-        );
+        return !tenant || tenant === '' || collectionTenant === 'public';
       });
     }
 

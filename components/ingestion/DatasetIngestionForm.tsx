@@ -84,21 +84,22 @@ function stripEmptyRenders(
 ): Record<string, unknown> {
   const { renders, ...rest } = submittedData;
   if (renders == null || (Array.isArray(renders) && renders.length === 0)) {
-    return rest;                                                                                                                     
-  }               
-
-  if (typeof renders !== 'object' || Array.isArray(renders)) {                                                                       
-    return submittedData;
-  }                                                                                                                                  
-     
-  const isEmpty = (value: unknown): boolean => {                                                                                        
-    if (value == null) return true;                                                                                                  
-    if (typeof value === 'string') return value.trim() === '';                                                                     
-    if (Array.isArray(value)) return value.length === 0;                                                                             
-    if (typeof value === 'object') return Object.keys(value as object).length === 0;
-    return false;                                                                                                                    
+    return rest;
   }
-  
+
+  if (typeof renders !== 'object' || Array.isArray(renders)) {
+    return submittedData;
+  }
+
+  const isEmpty = (value: unknown): boolean => {
+    if (value == null) return true;
+    if (typeof value === 'string') return value.trim() === '';
+    if (Array.isArray(value)) return value.length === 0;
+    if (typeof value === 'object')
+      return Object.keys(value as object).length === 0;
+    return false;
+  };
+
   const dashboard = (renders as Record<string, unknown>).dashboard;
   return isEmpty(dashboard) ? rest : submittedData;
 }

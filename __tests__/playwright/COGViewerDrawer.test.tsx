@@ -1,8 +1,19 @@
 import { expect, test } from '@/__tests__/playwright/setup-msw';
 import type { Page } from '@playwright/test';
 
+async function fillSampleFile(page: Page, value = 's3://test.com') {
+  const sampleFileInput = page.getByLabel('Sample Files-1');
+  await sampleFileInput.fill(value);
+  await sampleFileInput.blur();
+  await expect(sampleFileInput).toHaveValue(value);
+  // eslint-disable-next-line playwright/no-wait-for-timeout
+  await page.waitForTimeout(2500);
+}
+
 async function openCOGDrawer(page: Page) {
+  // eslint-disable-next-line playwright/no-wait-for-timeout
   await page.waitForTimeout(1000);
+
   await page
     .getByRole('button', {
       name: /Generate Renders Object from Sample File/i,
@@ -19,6 +30,7 @@ async function fillRenders(page: Page, rendersData: Record<string, unknown>) {
   const rendersTextbox = page.locator('#root_renders').getByRole('textbox');
   await rendersTextbox.clear();
   await rendersTextbox.fill(JSON.stringify(rendersData, null, 2));
+  await rendersTextbox.blur();
 
   // Wait for the JSON to be properly set in the form
   await expect(rendersTextbox).toContainText(
@@ -35,8 +47,7 @@ test.describe('COG Viewer Drawer', () => {
     });
 
     await test.step('enter URL of Sample File and valid json in renders object', async () => {
-      await page.getByLabel('Sample Files-1').fill('s3://test.com');
-      await page.waitForTimeout(2500);
+      await fillSampleFile(page);
 
       await fillRenders(page, {
         resampling: 'nearest',
@@ -145,8 +156,7 @@ test.describe('COG Viewer Drawer', () => {
     });
 
     await test.step('enter URL of Sample File but no renders object', async () => {
-      await page.getByLabel('Sample Files-1').fill('s3://test.com');
-      await page.waitForTimeout(2500);
+      await fillSampleFile(page);
     });
 
     await test.step('click button to open COG Viewer Drawer', async () => {
@@ -214,8 +224,7 @@ test.describe('COG Viewer Drawer', () => {
     });
 
     await test.step('enter URL of Sample File and invalid json in renders object', async () => {
-      await page.getByLabel('Sample Files-1').fill('s3://test.com');
-      await page.waitForTimeout(2500);
+      await fillSampleFile(page);
 
       const rendersTextbox = page.locator('#root_renders').getByRole('textbox');
       await rendersTextbox.clear();
@@ -275,8 +284,7 @@ test.describe('COG Viewer Drawer', () => {
     });
 
     await test.step('enter URL of Sample File and valid json in renders object', async () => {
-      await page.getByLabel('Sample Files-1').fill('s3://test.com');
-      await page.waitForTimeout(2500);
+      await fillSampleFile(page);
 
       await fillRenders(page, {
         resampling: 'nearest',

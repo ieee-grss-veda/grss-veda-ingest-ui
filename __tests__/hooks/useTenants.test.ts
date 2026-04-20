@@ -43,7 +43,9 @@ describe('useTenants', () => {
     mockedUseUserTenants.mockReturnValue(mockContextValue);
 
     const { result } = renderHook(() => useTenants(baseSchema));
-    expect(result.current.schema.properties?.[tenantFieldKey]?.type).toBe('string');
+    expect(result.current.schema.properties?.[tenantFieldKey]?.type).toBe(
+      'string'
+    );
     expect(result.current.schema.properties?.[tenantFieldKey]?.title).toBe(
       'Tenants'
     );
@@ -62,7 +64,9 @@ describe('useTenants', () => {
     mockedUseUserTenants.mockReturnValue(mockContextValue);
 
     const { result } = renderHook(() => useTenants(baseSchema));
-    expect(result.current.schema.properties?.[tenantFieldKey]?.type).toBe('string');
+    expect(result.current.schema.properties?.[tenantFieldKey]?.type).toBe(
+      'string'
+    );
     expect(result.current.schema.properties?.[tenantFieldKey]?.enum).toEqual(
       mockTenants
     );
