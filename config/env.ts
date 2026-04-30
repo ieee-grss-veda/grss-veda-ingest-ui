@@ -1,8 +1,8 @@
 // Centralized environment configuration with typed profiles
 // Switch via `NEXT_PUBLIC_APP_ENV` = 'local' | 'veda' | 'disasters'
 
-export type AppEnv = 'local' | 'eic' | 'disasters' | 'veda';
-export type DatasetFormSchemaProfile = 'default' | 'disasters';
+export type AppEnv = 'local' | 'grss-veda';
+export type DatasetFormSchemaProfile = 'default';
 
 interface EnvConfig {
   OWNER: string;
@@ -19,50 +19,27 @@ interface EnvConfig {
 
 const profiles: Record<AppEnv, EnvConfig> = {
   local: {
-    OWNER: 'nasa-impact',
-    REPO: 'veda-ingest-ui-testing',
+    OWNER: 'ieee-grss-veda',
+    REPO: 'grss-veda-data',
     TARGET_BRANCH: 'main',
     AWS_REGION: 'us-west-2',
     NEXT_PUBLIC_AWS_S3_BUCKET_NAME: 'veda-thumbnails',
     ADDITIONAL_LOGO: '',
-    VEDA_BACKEND_URL: 'https://dev.openveda.cloud/api',
-    VEDA_PROD_BACKEND_URL: 'https://staging.openveda.cloud/api',
+    VEDA_BACKEND_URL: 'https://api.dev.veda.grss.cloud/',
+    VEDA_PROD_BACKEND_URL: 'https://api.staging.veda.grss.cloud/',
     DATASET_FORM_SCHEMA_PROFILE: 'default',
     VEDA_TENANT_FILTER_FIELD: 'local:tenant',
   },
-  disasters: {
-    OWNER: 'Disasters-Learning-Portal',
-    REPO: 'disasters-data',
-    TARGET_BRANCH: 'main',
-    AWS_REGION: 'us-west-2',
-    NEXT_PUBLIC_AWS_S3_BUCKET_NAME: 'veda-thumbnails',
-    ADDITIONAL_LOGO: 'disasters',
-    VEDA_BACKEND_URL: 'https://dev.disasters.openveda.cloud/api',
-    VEDA_PROD_BACKEND_URL: 'https://dev.disasters.openveda.cloud/api',
-    DATASET_FORM_SCHEMA_PROFILE: 'disasters',
-  },
-  veda: {
-    OWNER: 'nasa-impact',
-    REPO: 'veda-data',
+  "grss-veda": {
+    OWNER: 'ieee-grss-veda',
+    REPO: 'grss-veda-data',
     TARGET_BRANCH: 'main',
     AWS_REGION: 'us-west-2',
     NEXT_PUBLIC_AWS_S3_BUCKET_NAME: 'veda-thumbnails',
     ADDITIONAL_LOGO: '',
-    VEDA_BACKEND_URL: 'https://staging.openveda.cloud/api',
-    VEDA_PROD_BACKEND_URL: 'https://openveda.cloud/api',
-    DATASET_FORM_SCHEMA_PROFILE: 'default',
-  },
-  eic: {
-    OWNER: 'nasa-impact',
-    REPO: 'eic-data',
-    TARGET_BRANCH: 'main',
-    AWS_REGION: 'us-west-2',
-    NEXT_PUBLIC_AWS_S3_BUCKET_NAME: 'veda-thumbnails',
-    ADDITIONAL_LOGO: 'eic',
-    VEDA_BACKEND_URL: 'https://eic-staging.staging.earth.gov/api',
-    VEDA_PROD_BACKEND_URL: 'https://openveda.cloud/api',
-    DATASET_FORM_SCHEMA_PROFILE: 'default',
-    VEDA_TENANT_FILTER_FIELD: 'eic:tenant',
+    VEDA_BACKEND_URL: 'https://api.staging.veda.grss-ieee.org/',
+    VEDA_PROD_BACKEND_URL: 'https://api.veda.grss-ieee.org/',
+    DATASET_FORM_SCHEMA_PROFILE: 'default'
   },
 };
 
