@@ -11,7 +11,8 @@ import { getRequiredRuntimeSecret } from '@/lib/runtimeSecrets';
 
 const bucketName = cfg.NEXT_PUBLIC_AWS_S3_BUCKET_NAME;
 const region = cfg.AWS_REGION;
-const RoleArn = process.env.ASSUME_ROLE_ARN;
+const RoleArn = process.env.ASSUME_ROLE_ARN?.trim();
+const useAssumeRole = !!RoleArn;
 const timestamp = Date.now();
 
 async function assumeRole() {
@@ -47,17 +48,26 @@ async function assumeRole() {
 }
 
 async function createS3Client() {
-  const credentials = await assumeRole();
-  return new S3Client({
-    region,
-    credentials,
-  });
+  if (useAssumeRole) {
+    const credentials = await assumeRole();
+    return new S3Client({ region, credentials });
+  }
+  // Default credential chain — Compute role on Amplify SSR, env/profile locally.
+  return new S3Client({ region });
 }
 
 async function createPresigner() {
-  const credentials = await assumeRole();
+  if (useAssumeRole) {
+    const credentials = await assumeRole();
+    return new S3RequestPresigner({
+      credentials,
+      region,
+      sha256: Hash.bind(null, 'sha256'),
+    });
+  }
+  const s3 = new S3Client({ region });
   return new S3RequestPresigner({
-    credentials,
+    credentials: s3.config.credentials,
     region,
     sha256: Hash.bind(null, 'sha256'),
   });
