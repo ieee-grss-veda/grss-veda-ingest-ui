@@ -23,7 +23,7 @@ const { Title, Paragraph, Link } = Typography;
 import { cfg } from '@/config/env';
 const bucketName = cfg.NEXT_PUBLIC_AWS_S3_BUCKET_NAME;
 const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png'];
-const CLOUDFRONT_URL = 'https://thumbnails.openveda.cloud/';
+const CLOUDFRONT_URL = cfg.THUMBNAIL_BASE_URL;
 
 interface UploadingFile {
   file: File;

@@ -10,6 +10,7 @@ interface EnvConfig {
   TARGET_BRANCH: string;
   AWS_REGION: string;
   NEXT_PUBLIC_AWS_S3_BUCKET_NAME: string;
+  THUMBNAIL_BASE_URL: string;
   ADDITIONAL_LOGO: string;
   VEDA_BACKEND_URL: string;
   VEDA_PROD_BACKEND_URL: string;
@@ -23,7 +24,8 @@ const profiles: Record<AppEnv, EnvConfig> = {
     REPO: 'grss-veda-data',
     TARGET_BRANCH: 'main',
     AWS_REGION: 'us-west-2',
-    NEXT_PUBLIC_AWS_S3_BUCKET_NAME: 'veda-thumbnails',
+    NEXT_PUBLIC_AWS_S3_BUCKET_NAME: 'grss-ingest-ui-thumbnails',
+    THUMBNAIL_BASE_URL: 'https://grss-ingest-ui-thumbnails.s3.us-west-2.amazonaws.com/',
     ADDITIONAL_LOGO: '',
     VEDA_BACKEND_URL: 'https://api.staging.veda.grss-ieee.org/',
     VEDA_PROD_BACKEND_URL: 'https://api.veda.grss-ieee.org/',
@@ -35,7 +37,8 @@ const profiles: Record<AppEnv, EnvConfig> = {
     REPO: 'grss-veda-data',
     TARGET_BRANCH: 'main',
     AWS_REGION: 'us-west-2',
-    NEXT_PUBLIC_AWS_S3_BUCKET_NAME: 'veda-thumbnails',
+    NEXT_PUBLIC_AWS_S3_BUCKET_NAME: 'grss-ingest-ui-thumbnails',
+    THUMBNAIL_BASE_URL: 'https://grss-ingest-ui-thumbnails.s3.us-west-2.amazonaws.com/',
     ADDITIONAL_LOGO: '',
     VEDA_BACKEND_URL: 'https://api.staging.veda.grss-ieee.org/',
     VEDA_PROD_BACKEND_URL: 'https://api.veda.grss-ieee.org/',
