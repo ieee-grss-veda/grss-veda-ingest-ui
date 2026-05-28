@@ -10,6 +10,17 @@ frontend:
         - yarn install
     build:
       commands:
+        # Auto-compute NEXTAUTH_URL from the Amplify branch unless overridden via env var.
+        # main → custom production domain; any other branch → its amplifyapp.com preview URL.
+        - |
+          if [ -z "$NEXTAUTH_URL" ]; then
+            if [ "$AWS_BRANCH" = "main" ]; then
+              echo 'NEXTAUTH_URL=https://ingest.veda.grss-ieee.org' >> .env.production
+            else
+              SAFE_BRANCH=$(echo "$AWS_BRANCH" | tr '/_' '--' | tr '[:upper:]' '[:lower:]')
+              echo "NEXTAUTH_URL=https://${SAFE_BRANCH}.${AWS_APP_ID}.amplifyapp.com" >> .env.production
+            fi
+          fi
         # Write non-secret environment variables to .env.production
         - env | grep -e APP_ID -e INSTALLATION_ID -e ASSUME_ROLE_ARN -e KEYCLOAK_CLIENT_ID -e NEXTAUTH_URL -e NEXT_PUBLIC_KEYCLOAK_ISSUER -e APP_RUNTIME_SECRET_ID >> .env.production
         # Write NEXT_PUBLIC_ variables to .env.production
