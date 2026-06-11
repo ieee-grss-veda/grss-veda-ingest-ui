@@ -179,6 +179,7 @@ const MenuBar = () => {
 
   return (
     <Menu
+      className="sidebar-menu"
       theme="dark"
       mode="inline"
       defaultSelectedKeys={['/']}

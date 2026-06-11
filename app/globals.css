@@ -142,6 +142,17 @@ label[title='cog_default'],
   color: #7a7a7a !important; /* Punctuation */
 }
 
+/* Sidebar menu group titles are links; keep them in the muted group-title
+   color instead of antd's link blue, with a hover cue for clickability. */
+.sidebar-menu .ant-menu-item-group-title a {
+  color: inherit;
+  transition: color 0.15s;
+}
+
+.sidebar-menu .ant-menu-item-group-title a:hover {
+  color: #fff;
+}
+
 .tenants-field {
   background-color: #f0f8ff;
   border: 1px solid #91d5ff;
