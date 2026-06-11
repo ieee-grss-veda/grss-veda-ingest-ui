@@ -42,7 +42,7 @@ describe('Home component', () => {
     render(jsx);
 
     const introductoryText = await screen.findByText(
-      /This application allows users to initiate the data ingest process\./i
+      /Welcome to GRSS VEDA Ingest/i
     );
     expect(introductoryText).toBeInTheDocument();
   }, 20000); // this test is slow
@@ -72,7 +72,7 @@ describe('Home component', () => {
     render(jsx);
 
     const introductoryText = await screen.findByText(
-      /This application allows users to initiate the data ingest process\./i
+      /Welcome to GRSS VEDA Ingest/i
     );
     expect(introductoryText).toBeInTheDocument();
   });

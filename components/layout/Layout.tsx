@@ -13,7 +13,14 @@ const LogoutButton = dynamic(() => import('@/components/ui/LogoutButton'), {
 
 const { Content, Sider } = Layout;
 
-const AppLayout = ({ children }: { children: ReactNode }) => {
+const AppLayout = ({
+  children,
+  variant = 'card',
+}: {
+  children: ReactNode;
+  /** 'card' wraps children in the white content panel; 'plain' lets them fill the content area */
+  variant?: 'card' | 'plain';
+}) => {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
@@ -30,11 +37,17 @@ const AppLayout = ({ children }: { children: ReactNode }) => {
         <LogoutButton collapsed={collapsed} />
       </Sider>
       <Layout>
-        <Content style={{ margin: '24px 16px 0' }}>
-          <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+        {variant === 'plain' ? (
+          <Content style={{ display: 'flex', flexDirection: 'column' }}>
             {children}
-          </div>
-        </Content>
+          </Content>
+        ) : (
+          <Content style={{ margin: '24px 16px 0' }}>
+            <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+              {children}
+            </div>
+          </Content>
+        )}
       </Layout>
     </Layout>
   );
