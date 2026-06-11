@@ -2,11 +2,13 @@ import type { ThemeConfig } from 'antd';
 
 const theme: ThemeConfig = {
   token: {
-    // Override the primary color with NASA blue
-    colorPrimary: '#0B3D91',
+    // GRSS VEDA brand blue (see veda-design-system.md)
+    colorPrimary: '#00629b',
 
-    // Override the error color with NASA red
-    colorError: '#FC3D21',
+    // VEDA destructive red
+    colorError: '#d4183d',
+
+    borderRadius: 10,
   },
 };
 
