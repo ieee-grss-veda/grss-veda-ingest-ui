@@ -74,14 +74,20 @@ const SidebarLogo = ({ collapsed }: SidebarLogoProps) => {
               alignItems: 'center',
               marginTop: 12,
               color: '#faad14',
+              width: '100%',
+              fontSize: 12,
             }}
           >
-            <AlertFilled style={{ marginRight: 8 }} />
+            <AlertFilled style={{ marginRight: 8, flexShrink: 0 }} />
             <div
               style={{
                 display: 'flex',
                 alignItems: 'flex-start',
                 flexDirection: 'column',
+                minWidth: 0,
+                flex: 1,
+                textAlign: 'left',
+                overflowWrap: 'anywhere',
               }}
             >
               {process.env.NEXT_PUBLIC_MOCK_TENANTS && (
